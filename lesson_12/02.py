@@ -48,6 +48,7 @@ from typing import Callable, Any
 from functools import wraps
 
 def limit_calls(limit: int, message: str, default: Any) -> Callable:
+    
     def dec_func(func: Callable) -> Callable:
         funcname = func.__name__
         func_limits = dict()
