@@ -49,23 +49,18 @@ from functools import wraps
 
 def limit_calls(limit: int, message: str, default: Any) -> Callable:
     def dec_func(func: Callable) -> Callable:
-        func_limits = dict()
         funcname = func.__name__
+        func_limits = dict()
+        func_limits[f"{funcname}_calls"] = 0
 
         @wraps(func)
-        def wrapper(*args: Any,**kwargs: Any) -> str | None:
-            nonlocal limit
-            nonlocal func_limits
-
-            if f"{funcname}_func" not in func_limits:
-                func_limits[f"{funcname}_func"] = funcname
-                func_limits[f"{funcname}_limit"] = limit
-                func_limits[f"{funcname}_calls"] = 0
-
+        def wrapper(*args: Any,**kwargs: Any) -> str | Any:
+            
             if func_limits[f"{funcname}_calls"] != limit:
                 func_limits[f"{funcname}_calls"] += 1
                 return func(*args,**kwargs)
             else: 
+                func_limits[f"{funcname}_calls"] += 1 # чтобы считало все вызовы, даже после превышения лимита
                 print(message)
                 return default
         return wrapper
@@ -103,3 +98,9 @@ print(get_items(["power",2]))
 print(get_items(["level",6]))
 print(get_items(["number",2]))
 print(get_items(["money",8]))
+
+# print(get_data.__closure__[2].cell_contents) # func_limits
+# print(add.__closure__[2].cell_contents) # func_limits
+# print(get_items.__closure__[2].cell_contents) # func_limits
+# каждый вызов функции с декоратором создает новый словарь c кол-вом вызовов (для каждой функции отдельно)
+# если под словом "отдельно" подразумевалось делать общий (словарь), но на каждую функцию отдельно, то я вижу один выход - выводить словарь func_limits за декоратор и передавать туда ключ (функция): значение (кол-во вызовов)
