@@ -57,7 +57,6 @@ def repeat(times: int, separator: str) -> Callable:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> str:
             func_result = []
-            
             for i in range(times,0,-1):
                 if i > 0:
                     func_result.append(f"{func(*args,**kwargs)}")
