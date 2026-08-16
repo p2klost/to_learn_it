@@ -1,33 +1,75 @@
 """
-Дана директория: 
+Напишите декоратор handle_errors, который автоматически 
+перехватывает ошибки, возникающие внутри функции. 
  
-project/ 
-    data.txt 
-    config.json 
-    image.png 
-    users.txt 
-    README.md 
+Например, есть функция: 
  
-Напишите программу, которая с помощью os.listdir(): 
+@handle_errors 
+def divide(a, b): 
+    return a / b 
  
-●  получает список содержимого директории; 
-●  находит только файлы с расширением .txt; 
-●  выводит их имена; 
-●  считает их количество.
+Декоратор должен: 
+ 
+●  выполнить функцию; 
+●  если функция завершилась успешно — вернуть её 
+результат; 
+●  если возник ZeroDivisionError — вывести: Ошибка: 
+деление на ноль. 
+●  если возник ValueError — вывести: Ошибка: некорректное 
+значение. 
+●  в любом случае программа не должна завершаться с 
+traceback. 
+ 
+Проверьте работу декоратора: 
+ 
+print(divide(10, 2)) 
+print(divide(10, 0)) 
+ 
+Ожидаемое поведение: 
+ 
+5.0 
+Ошибка: деление на ноль. 
+Дополнительное усложнение 
+ 
+Сделайте так, чтобы декоратор работал не только с divide(), но 
+и с другими функциями: 
+ 
+@handle_errors 
+def convert_to_int(value): 
+    return int(value) 
+ 
+Например: 
+ 
+convert_to_int("100") 
+convert_to_int("hello")
 """
-from os import listdir, getcwd, PathLike
-from os.path import join
 
-dir = join(getcwd(),"lesson_13\\project")
+from typing import Callable, Any
+from functools import wraps
 
-def check_dir(directory: PathLike) -> str:
-    txt_num = 0
-    
-    for i in listdir(directory):
-        if i.endswith(".txt"):
-            print(i[0:len(i)-4]) # чтобы убрать .txt и вывести только имя файла
-            txt_num += 1
+def handle_errors(func: Callable) -> Callable:
 
-    return txt_num
+    @wraps(func)
+    def decorator(*args: Any, **kwargs: Any) -> float | int: 
+        try:
+            return func(*args,**kwargs)
+        except ZeroDivisionError:
+            print("Ошибка: деление на ноль.")
+        except ValueError:
+            print("Ошибка: некорректное значение.")
+    return decorator
 
-print(check_dir(dir)) # выводит (принтует) имена и возвращает кол-во
+
+@handle_errors 
+def divide(a, b): 
+    return a / b 
+
+print(divide(10, 2)) 
+print(divide(10, 0)) 
+
+@handle_errors 
+def convert_to_int(value): 
+    return int(value) 
+
+print(convert_to_int("100"))
+print(convert_to_int("hello"))
