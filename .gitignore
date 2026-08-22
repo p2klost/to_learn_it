@@ -6,6 +6,7 @@ env/
 venv/
 ENV/
 .venv
+.ssh
 
 # Build outputs and distributions
 dist/
@@ -17,6 +18,12 @@ out/
 *.log
 *.sqlite
 *.db
+
+# no list
+*.pdf
+*dev.py
+online_lesson/
+__pycache__/
 
 # Environment variables and secrets
 .env
