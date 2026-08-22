@@ -57,6 +57,8 @@ def handle_errors(func: Callable) -> Callable:
             print("Ошибка: деление на ноль.")
         except ValueError:
             print("Ошибка: некорректное значение.")
+        except Exception:
+            print("Ошибка: что-то пошло не так.")
     return decorator
 
 

@@ -37,7 +37,7 @@ items = []
 обработку IndexError. 
 """
 
-items= []
+items = []
 
 while True: 
     command = input("Введите команду: ") 
@@ -57,7 +57,7 @@ while True:
             print("Ошибка: для команды remove необходимо ввести корректный индекс.")
             
     elif command == "show":
-        print(items) # выводит, но не прекращает работу программы
+        print("Список пустой." if items == [] else items) # выводит, но не прекращает работу программы
 
     elif command == "exit":
         break
