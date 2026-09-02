@@ -53,8 +53,8 @@ class Order:
         self.discount_type = discount_type
 
     @property
-    def discount_price(self) -> int | float:
-        return f"{self.price - self.discount_type.calculate(self.price):.2f}"
+    def discount_price(self) -> float:
+        return round(self.price - self.discount_type.calculate(self.price),2)
 
 get1 = Order(250,DefaultDiscount())
 get2 = Order(250,UsualClientDiscount())
