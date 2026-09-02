@@ -48,13 +48,13 @@ class PromoDiscount(Discount):
 
 class Order:
 
-    def __init__(self,price,discount_type: type[Discount]) -> None:
+    def __init__(self,price: int | float,discount_type: type[Discount]) -> None:
         self.price = price
         self.discount_type = discount_type
 
     @property
     def discount_price(self) -> int | float:
-        return self.price - self.discount_type.calculate(self.price)
+        return f"{self.price - self.discount_type.calculate(self.price):.2f}"
 
 get1 = Order(250,DefaultDiscount())
 get2 = Order(250,UsualClientDiscount())
