@@ -22,8 +22,10 @@ out/
 # no list
 *.pdf
 *dev.py
+*dev/
 online_lesson/
 __pycache__/
+*.db
 
 # Environment variables and secrets
 .env
