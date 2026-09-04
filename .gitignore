@@ -18,6 +18,8 @@ out/
 *.log
 *.sqlite
 *.db
+*.db-shm
+*.db-wal
 
 # no list
 *.pdf
