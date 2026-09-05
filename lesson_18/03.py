@@ -26,23 +26,23 @@ class Discount(ABC):
     def calculate(self, price: int | float) -> int | float:
         pass
 
-class DefaultDiscount(Discount):
+class DefaultDiscountStrategy(Discount):
     def calculate(self, price: int | float) -> int | float:
         return price * 0.05
 
-class UsualClientDiscount(Discount):
+class UsualClientDiscountStrategy(Discount):
     def calculate(self, price: int | float) -> int | float:
         return price * 0.1
 
-class VIPDiscount(Discount):
+class VIPDiscountStrategy(Discount):
     def calculate(self, price: int | float) -> int | float:
         return price * 0.2
 
-class BirthdayDiscount(Discount):
+class BirthdayDiscountStrategy(Discount):
     def calculate(self, price: int | float) -> int | float:
         return price * 0.25
 
-class PromoDiscount(Discount):
+class PromoDiscountStrategy(Discount):
     def calculate(self, price: int | float) -> int | float:
         return price * 0.15
 
@@ -56,11 +56,11 @@ class Order:
     def discount_price(self) -> float:
         return round(self.price - self.discount_type.calculate(self.price),2)
 
-get1 = Order(250,DefaultDiscount())
-get2 = Order(250,UsualClientDiscount())
-get3 = Order(250,VIPDiscount())
-get4 = Order(250,BirthdayDiscount())
-get5 = Order(250,PromoDiscount())
+get1 = Order(250,DefaultDiscountStrategy())
+get2 = Order(250,UsualClientDiscountStrategy())
+get3 = Order(250,VIPDiscountStrategy())
+get4 = Order(250,BirthdayDiscountStrategy())
+get5 = Order(250,PromoDiscountStrategy())
 
 print(get1.discount_price)
 print(get2.discount_price)
