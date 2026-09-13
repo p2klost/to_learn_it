@@ -10,8 +10,7 @@ def execute(input_num: int) -> None:
             show_users()
         elif input_num == 3:
             in_par = input("Введите данные (id пользователя, продукт, статус):").split(", ")
-            create_order(in_par[0],in_par[1],in_par[2])
-            print("Пользователь создан")
+            create_order(int(in_par[0]),in_par[1],in_par[2])
         elif input_num == 4:
             show_orders()
         elif input_num == 5:
@@ -19,14 +18,14 @@ def execute(input_num: int) -> None:
             show_my_orders(in_par)
         elif input_num == 6:
             in_par = input("Введите id заказа:")
-            show_order_status(in_par[0])
+            show_order_status(int(in_par[0]))
         elif input_num == 7:
             in_par = input("Введите данные (id заказа, новый статус):").split(", ")
-            update_order_status(in_par[0],in_par[1])
+            update_order_status(int(in_par[0]),in_par[1])
             print(f"Статус заказа с id {in_par[0]} обновлен")
         elif input_num == 8:
             in_par = input("Введите данные id заказа:")
-            delete_order(in_par[0])
+            delete_order(int(in_par[0]))
             print(f"Заказ с id {in_par[0]} удален")
         elif input_num == 9:
             in_par = input("Введите название товара:")

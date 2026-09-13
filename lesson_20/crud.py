@@ -30,12 +30,16 @@ def show_users() -> None:
             for user in result:
                 print(f"{user.id}\t{user.name}\t{user.email}")
 
-def create_order(user_id: str, product: str, status: str) -> None:
+def create_order(user_id: int, product: str, status: str) -> None:
     """3. Создать заказ"""
     with session:
-        order = Order(user_id=user_id,product=product, status=status)
-        session.add(order)
-        session.commit()    
+        if not session.get(User,user_id):
+            print(f"Пользователь с id {user_id} не найден, заказ не создан")
+        else:
+            order = Order(user_id=user_id,product=product, status=status)
+            session.add(order)
+            session.commit()
+            print("Заказ создан")
 
 def show_orders() -> None:
     """4. Показать все заказы"""
@@ -57,7 +61,7 @@ def show_my_orders(email: str) -> None:
         statement = select(User).where(User.email == email)
         result = session.scalar(statement)
         if not result:
-            print("В базе нет ваших заказов")
+            print(f"Пользователя с почтой {email} нет в базе")
         else:
             col = Order.__table__.columns
             print("Все ваши заказы")
@@ -65,18 +69,18 @@ def show_my_orders(email: str) -> None:
             for order in result.orders:
                 print(f"{order.id}\t{order.product}\t{order.status}")
 
-def show_order_status(id: str) -> None:
+def show_order_status(id: int) -> None:
     """6. Показать статус заказа"""
     with session:
         print(get_order_by_id(id).status)
 
-def update_order_status(id: str, new_status: str) -> None:
+def update_order_status(id: int, new_status: str) -> None:
     """7. Изменить статус заказа"""
     with session:
         get_order_by_id(id).status = new_status
         session.commit()
 
-def delete_order(id: str) -> None:
+def delete_order(id: int) -> None:
     """8. Удалить заказ"""
     with session:
         order = session.get(Order,id)
@@ -96,6 +100,6 @@ def find_order(product: str) -> None:
             print(f"{col[0].name}\t{col[1].name}\t{col[2].name}\t{col[3].name}")
             print(f"{order.id}\t{order.user_id}\t{order.product}\t{order.status}")
 
-def get_order_by_id(id: str) -> Order | None:
+def get_order_by_id(id: int) -> Order | None:
     """Получить заказ по id"""
     return session.get(Order,id)
